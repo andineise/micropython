@@ -33,7 +33,7 @@
 #include "esp_idf_version.h"
 
 // CAN only for ESP-IDF v4.2 and higher because of "driver/twai.h"
-#if (ESP_IDF_VERSION_MAJOR == 4) && (ESP_IDF_VERSION_MINOR >= 2)
+#if ESP_IDF_VERSION_MAJOR >= 4
 
 #include "driver/twai.h"
 #include "esp_task.h"
@@ -57,6 +57,7 @@
 #define CAN_DEFAULT_BS1             (15)
 #define CAN_DEFAULT_BS2             (4)
 #define CAN_MAX_DATA_FRAME          (8)
+#define TWAI_ALERT_RX_DATA	    0x0004
 
 // INTERNAL Deinitialize can
 void can_deinit(const esp32_can_obj_t *self) {

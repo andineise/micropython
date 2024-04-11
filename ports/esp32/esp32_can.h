@@ -54,15 +54,24 @@ typedef struct _esp32_can_obj_t {
     esp32_can_config_t *config;
     mp_obj_t rxcallback;
     TaskHandle_t irq_handler;
+    byte rx_state;
+    bool extframe : 1;
     bool loopback : 1;
     byte last_tx_success : 1;
     byte bus_recovery_success : 1;
-    uint16_t num_error_warning;
+    uint16_t num_error_warning; //FIXME: populate this value somewhere
     uint16_t num_error_passive;
     uint16_t num_bus_off;
 } esp32_can_obj_t;
 
-extern const mp_obj_type_t esp32_can_type;
+typedef enum _rx_state_t {
+    RX_STATE_FIFO_EMPTY = 0,
+    RX_STATE_MESSAGE_PENDING,
+    RX_STATE_FIFO_FULL,
+    RX_STATE_FIFO_OVERFLOW,
+} rx_state_t;
+
+extern const mp_obj_type_t machine_can_type;
 
 #endif // MICROPY_HW_ENABLE_CAN
 #endif // MICROPY_INCLUDED_ESP32_CAN_H
